@@ -23,12 +23,12 @@ for d in dir:
     print("Directory is :",d)
     d1=d
     print("d1:",d1)
-    path= "/volume/CSdata/krikumar/Microsoft/" + d1 + "/" + "test"
-    print(path)
-    create_time = os.path.getctime(path)
+    os.chdir("/volume/CSdata/krikumar/Microsoft/" + d1) 
+    # path=  "test"
+    create_time = os.path.getctime("test")
     create_date = datetime.datetime.fromtimestamp(create_time)
     print("create_time:",create_date)
 
-# os.chdir(master_dir) 
+# 
 # os.system('ls -l')
 
