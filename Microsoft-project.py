@@ -4,6 +4,9 @@ import tarfile
 import sys
 import time
 
+os.system('rm -rf /volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt') #removing last 10th minute case file#
+
+
 today_date = time.strftime("%Y-%m%d") #time in 2024-0326 formate
 year = time.strftime("%Y")
 # path of the directory 
@@ -61,6 +64,10 @@ for x in range(len(res)):
         # sys.exit(0)
     else:
         print("Extracting logs to the ",case_dir)
+        os.system('touch /volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt') #writing new case number to the file #
+        file1 = open("/volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt", "a")
+        L = ["case_num \n"]
+        file1.writelines(L) 
         os.mkdir(case_dir)
         print ("Case Directory is :",case_dir,"\n")
         # cwd = os.getcwd() 
