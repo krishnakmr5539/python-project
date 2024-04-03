@@ -66,7 +66,7 @@ for x in range(len(res)):
         print("Extracting logs to the ",case_dir)
         os.system('touch /volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt') #writing new case number to the file #
         file1 = open("/volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt", "a") #appending case number#
-        L = case_num
+        L = (case_num, "\n")
         file1.writelines(L)
         file1.close()
 
