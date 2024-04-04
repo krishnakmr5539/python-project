@@ -1,11 +1,9 @@
 import os 
 import shutil
 import tarfile
-import sys
 import time
 
 # os.system('rm -rf /volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt') #removing last 10th minute case file#
-
 
 today_date = time.strftime("%Y-%m%d") #time in 2024-0326 formate
 year = time.strftime("%Y")
@@ -120,5 +118,10 @@ os.system('chmod -R 777 *')
 
 print("All file now in:", master_dir,"\n" )
 
-print("Thank You\n" )
-print("\033[0m")
+
+# print("\033[0m")
+
+time.sleep(5)
+
+
+
