@@ -4,7 +4,7 @@ import tarfile
 import sys
 import time
 
-os.system('rm -rf /volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt') #removing last 10th minute case file#
+# os.system('rm -rf /volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt') #removing last 10th minute case file#
 
 
 today_date = time.strftime("%Y-%m%d") #time in 2024-0326 formate
