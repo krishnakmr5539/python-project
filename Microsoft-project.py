@@ -104,7 +104,7 @@ for x in range(len(res)):
                         file.extractall(path)         # extracting file 
                         file.close()
                     except tarfile.ReadError:
-                        print("\033[91m Not  able to open file:\033[91m", file_path)
+                        print("Not  able to open file:", file_path)
                
                 except FileExistsError:
                     print("Directory {} already exist".format(path),"\n")
@@ -118,8 +118,6 @@ os.system('chmod -R 777 *')
 
 print("All file now in:", master_dir,"\n" )
 
-
-# print("\033[0m")
 
 time.sleep(5)
 
