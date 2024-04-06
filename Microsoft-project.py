@@ -50,11 +50,13 @@ for x in range(len(res)):
         print("Case directory already exist,no need to extract the logs: \n")       
     else:
         print("Extracting logs to the ",case_dir)
-        os.system('touch /volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt') #writing new case number to the file #
-        file1 = open("/volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt", "a") #appending case number#
-        L = (case_num, "\n")
-        file1.writelines(L)
-        file1.close()
+        # os.system('touch /volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt') #writing new case number to the file #
+        # file1 = open("/volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt", "a") #appending case number#
+        # L = (case_num, "\n")
+        # file1.writelines(L)
+        # file1.close()
+        case_list = []
+        case_list.append(case_num) #store the latest case in this list#
         os.mkdir(case_dir)
         print ("Case Directory is :",case_dir,"\n")
         case_vol = "/volume/case_" + year +"/" + case_num
@@ -91,9 +93,6 @@ for x in range(len(res)):
                 shutil.copy(file_path,case_dir)
 os.chdir(case_dir) 
 os.system('chmod -R 777 *')
-
-print("All file now in:", master_dir,"\n" )
-
 
 time.sleep(5)
 
