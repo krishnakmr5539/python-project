@@ -102,7 +102,7 @@ for file in os.listdir():
                 file.extractall(path)         # extracting file 
                 file.close()
             except tarfile.ReadError:
-                print("\033[91m Not  able to open file:\033[1;33;40m", file_path)
+                print("\033[91m Not  able to open file:\033[94m", file_path)
                
         except FileExistsError:
                 print("\033[94m Directory {} already exist".format(path),"\n")
