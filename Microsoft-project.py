@@ -7,23 +7,23 @@ import time
 today_date = time.strftime("%Y-%m%d") #time in 2024-0326 formate
 year = time.strftime("%Y")
 master_dir = "/volume/CSdata/krikumar/Microsoft" # Directory  where cases will be stored#
-dir_path = "/volume/CSdata/krikumar/Microsoft/" + today_date
-dir = os.listdir(master_dir)  # Getting the list of directories 
-if len(dir) == 0:
-    print("creating new dir",dir_path)
-    os.mkdir(dir_path)
-else: 
-    for d in dir:
-        print("Directory in master dir:",d)
-        if d == today_date:
-            print("Directory Exist:",dir_path)
-        else:
-            print("creating dir:",dir_path)
-            os.chdir(master_dir) 
-            os.system('rm -rf *')
-            os.mkdir(dir_path)
+# dir_path = "/volume/CSdata/krikumar/Microsoft/" + today_date
+# dir = os.listdir(master_dir)  # Getting the list of directories 
+# if len(dir) == 0:
+#     print("creating new dir",dir_path)
+#     os.mkdir(dir_path)
+# else: 
+#     for d in dir:
+#         print("Directory in master dir:",d)
+#         if d == today_date:
+#             print("Directory Exist:",dir_path)
+#         else:
+#             print("creating dir:",dir_path)
+#             os.chdir(master_dir) 
+#             os.system('rm -rf *')
+#             os.mkdir(dir_path)
 
-os.system('chmod -R 777 /volume/CSdata/krikumar/Microsoft/*')  
+# os.system('chmod -R 777 /volume/CSdata/krikumar/Microsoft/*')  
 
 #get case number #
 case_file_loc = "/volume/CSdata/krikumar/Microsoft-automation"
@@ -45,19 +45,14 @@ for x in range(len(res)):
     case_num=(res[x])
     print("case number is",case_num,"\n")
     #apply logic to check if dir already exist #
-    case_dir = "/volume/CSdata/krikumar/Microsoft/" + today_date + "/" + case_num
+    case_dir = "/volume/CSdata/krikumar/Microsoft/" + case_num
     if(os.path.exists(case_dir)):
         print("Case directory already exist,no need to extract the logs: \n")       
     else:
         print("Extracting logs to the ",case_dir)
-        # os.system('touch /volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt') #writing new case number to the file #
-        # file1 = open("/volume/CSdata/krikumar/Microsoft-automation/case-reported-in-last-10-min.txt", "a") #appending case number#
-        # L = (case_num, "\n")
-        # file1.writelines(L)
-        # file1.close()
         case_list = []
         case_list.append(case_num) #store the latest case in this list#
-        os.mkdir(case_dir)
+        os.mkdir(case_dir) 
         print ("Case Directory is :",case_dir,"\n")
         case_vol = "/volume/case_" + year +"/" + case_num
         os.chdir(case_vol) 
@@ -69,8 +64,7 @@ for x in range(len(res)):
             elif ".core."  in file:
                 file_path = f"{case_vol}/{file}"   
                 shutil.copy(file_path,case_dir)
-                print("Copying core file:",file_path,"\n")
-       
+                print("Copying core file:",file_path,"\n")      
             elif file.endswith(".tgz"):  ## Check if file extention is .tgz then extract to CSdata ##
                 file_path = f"{case_vol}/{file}"
                 file_name = file
