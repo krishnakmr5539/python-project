@@ -415,13 +415,7 @@ class healthcheck:
             i+=1
 
         dict_rsi['fpc'].sort()
-        #print(dict_rsi['fpc'])
-        #print(pfe_trun_key)
-        #print(dict_rsi['pfe_trun_key'])
-        #print("PRINTING ENTIRE DICT")
-        #print(dict_rsi)
-        #print(dict_rsi['core'])
-        #table
+
         mytable = PrettyTable(["Component","Value"])
         mytable.hrules=ALL
         #Add rows
@@ -1084,20 +1078,27 @@ for case in case_list:
             print("printing final dir",RSI_DIR)
             RSI.append(RSI_DIR)
 
+pattern = r'\d{4}-\d{4}-\d{6}' #Find the case number from the directory
+case_rsi_pr_dir = "/volume/CSdata/krikumar/Microsoft-automation/CASE_RSI_PR_DIR"
 if RSI == []:
     print("No uncompressed RSI File available in the folder")
     exit(1)
 else:
     for i in RSI:
         print("Printing Final Directory from RSI need to be extracted\n",i)
-        rsi1 = os.listdir(i)
+        match = re.search(pattern, i) #match contain the case number#
+        case_num = match.group(0) #This will give the exact case number#
+        print(case_num)
+        rsi_file = os.listdir(i)
         os.chdir(i) 
-        print(rsi1)
-        for rsi in rsi1:
-            print("print rsi ",rsi)
+        print(rsi_file)
+        for rsi in rsi_file:
+            print("print rsi file is ",rsi)
             obj1 = healthcheck(rsi)
-            obj1.pvhcu(rsi)
-            
+            result = obj1.pvhcu(rsi)
+            os.chdir(case_rsi_pr_dir)
+            with open (case_num,'w') as file:
+                file.write(str(result))
 
 
 
