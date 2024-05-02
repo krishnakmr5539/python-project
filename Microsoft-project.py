@@ -31,7 +31,7 @@ master_dir = "/volume/CSdata/krikumar/Microsoft" # Directory  where cases will b
 case_file_loc = "/volume/CSdata/krikumar/Microsoft-automation"
 os.chdir(case_file_loc)            
 
-file_path1 = 'test-final-case-list.txt'  # microsoft_case.txt has case number reported in last 10 minutes
+file_path1 = 'final-case-list.txt'  # microsoft_case.txt has case number reported in last 10 minutes
 
 # Open the file in read mode
 with open(file_path1, 'r') as file: # Read all lines from the file and store them in a list
@@ -1095,6 +1095,7 @@ class healthcheck:
         
         log_location = f"""
                 <h3>Case extraced logs location : {case_dir} </h3>
+                <br>
                 """
         html_table = """
                         <html>
@@ -1211,4 +1212,4 @@ final_location = "/volume/CSdata/krikumar/Microsoft-automation/RSI_DIR/"
 os.chdir(final_location)
 file_list = os.listdir()
 for file in file_list:
-    os.system('mail -a "Content-Type: text/html" -s {} krikumar@juniper.net  -r krikumar@juniper.net  < {}'.format(file,file))
+    os.system('mail -a "Content-Type: text/html" -s {} krikumar@juniper.net gponnusamy@juniper.net vvikas@juniper.net  -r krikumar@juniper.net  < {}'.format(file,file))
