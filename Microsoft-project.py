@@ -94,6 +94,10 @@ time.sleep(5)
 
 ### RSI Analyser Script start from here ###
 
+final_location = "/volume/CSdata/krikumar/Microsoft-automation/RSI_DIR/"
+os.chdir(final_location)
+os.system('rm -rf *')
+
 
 """This is a python script for health check of devices"""
 
@@ -105,12 +109,11 @@ class healthcheck:
     def pvhcu(self,RSI,case_num):
 
         case_rsi_pr_dir = "/volume/CSdata/krikumar/Microsoft-automation/RSI_DIR"
+        
         #Color coding
         R = "\033[91m" #RED
-        G = "\033[92m" #GREEN
-        Y = "\033[93m" #yellow
-        B = "\033[94m" #Blue
         N = "\033[0m" #Reset
+
         self.RSI = RSI
         self.case_num = case_num
         
@@ -437,8 +440,8 @@ class healthcheck:
             RSI_Analyser.append("Junos_Version =" +dict_rsi['version'])
 
         except KeyError:
-            RSI_Analyser.append("JUNOS Version Details not found on RSI file "+RSI+R+"\nPlease check if RSI file "+RSI+" contains valid info"+N)
-            RSI_Analyser.append(R+"EXITING THE HEALTHCHECK"+N)
+            RSI_Analyser.append("JUNOS Version Details not found on RSI file "+RSI+"\nPlease check if RSI file "+RSI+" contains valid info")
+            RSI_Analyser.append("EXITING THE HEALTHCHECK")
             exit(1)
 
         if dict_rsi.get('host_version') != None:
@@ -450,7 +453,7 @@ class healthcheck:
             i = 1
             for al in dict_rsi['alarm']:
 
-                RSI_Analyser.append("Alarm ="+' '+str(i) + R+al+N)
+                RSI_Analyser.append("Alarm ="+' '+str(i) + al)
                 i = i+1
         else:
 
@@ -460,7 +463,7 @@ class healthcheck:
                 i = 1
                 for cor in dict_rsi['core']:
 
-                    RSI_Analyser.append('Core='+''+str(i)+R+cor+N)
+                    RSI_Analyser.append('Core='+''+str(i)+cor)
                     i+=1
             else:       
 
@@ -475,12 +478,12 @@ class healthcheck:
                     var.remove('')
                 if 'idle' in var[1]:
                     if float(var[0]) < 50:
-                        RSI_Analyser.append([var[1]+" = "+R+var[0]+'%'+N])
+                        RSI_Analyser.append([var[1]+" = "+var[0]+'%'])
                     else:    
                         RSI_Analyser.append([var[1]+" = "+var[0]+'%'])
                 else:    
                     if float(var[0]) > 50:
-                        RSI_Analyser.append([var[1]+' process CPU usage='+R+var[0]+'%'+N])
+                        RSI_Analyser.append([var[1]+' process CPU usage='+var[0]+'%'])
                     else:
                         RSI_Analyser.append([var[1]+' process CPU usage='+var[0]+ '%'])
         
@@ -1066,26 +1069,13 @@ class healthcheck:
         RSI_Analyser.append(['PFE HW Info cell drops='+dict_rsi['pfe_info_cell_drop']])
         RSI_Analyser.append(['PFE HW Fabric drops='+dict_rsi['pfe_fab_drop']])
 
-        # input_string = dict_rsi['version']  ##"20.3X75-D36.12" We need to remove .12 to find the PR ##
-        # version = input_string.rsplit(".", 1)[0] # 20.3X75-D36 #
-        # os.chdir(case_rsi_pr_dir) #chnage the directory to write the RSI analysed output#
-        # def find_string_in_file(file_path, search_string): #Function will find the know PR for the version and write to te case file#
-        #     with open(file_path, 'r') as file:
-        #         for line in file:
-        #             if search_string in line:
-        #                 with open (case_num,'a') as file:
-        #                     file.write(str(line))
-        #                     file.write("\n")
-        # # Example usage:
-        # file_path = '/volume/CSdata/krikumar/Microsoft-automation/Final-PR-Report-html-tag-x.html'
-        # search_string = version
+        os.system('chmod -R 777 {}'.format(case_num)) #set case directory permision to full#
 
-        # find_string_in_file(file_path, search_string)
         os.chdir(case_rsi_pr_dir) #change the directory to write the RSI analysed output#
         email_header = """
                     <html>
                     <body>
-                    <p  style="color:Red;" >Attention : This is automated email, if you find any abnormality , kindly email  to krikumar@juniper.net,gponnusamy@juniper.net</p>
+                    <p  style="color:Red;" >Attention :This is automated email,if you find any abnormality or any suggestion,kindly email to krikumar@juniper.net,gponnusamy@juniper.net</p>
                     <br>
                     <p>Hello Team,</p>
                     <p>Please find RSI health check and know PR list in the current code.</p>    
@@ -1095,6 +1085,7 @@ class healthcheck:
         
         log_location = f"""
                 <h3>Case extraced logs location : {case_dir} </h3>
+                <p style="color:Blue;">Extracted logs available for 15 days at this location</p>
                 <br>
                 """
         html_table = """
@@ -1153,7 +1144,7 @@ class healthcheck:
         version = input_string.rsplit(".", 1)[0] # 20.3X75-D36 #
 
         known_pr = f"""
-                <h3>Know PR in the current code : {version} </h3>
+                <h3>Known PR in the current code : {version} </h3>
                 """
         with open (case_num,'a') as file: 
             file.write(str(known_pr))
@@ -1206,10 +1197,8 @@ else:
             obj1.pvhcu(rsi,case_num)
 
 #code to send email#
-
-final_location = "/volume/CSdata/krikumar/Microsoft-automation/RSI_DIR/"
-
-os.chdir(final_location)
+            
+os.chdir(final_location) #final_location = "/volume/CSdata/krikumar/Microsoft-automation/RSI_DIR/"#
 file_list = os.listdir()
 for file in file_list:
     os.system('mail -a "Content-Type: text/html" -s {} krikumar@juniper.net gponnusamy@juniper.net vvikas@juniper.net  -r krikumar@juniper.net  < {}'.format(file,file))
