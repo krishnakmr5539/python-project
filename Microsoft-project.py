@@ -447,7 +447,7 @@ class healthcheck:
         if dict_rsi.get('host_version') != None:
             RSI_Analyser.append(['Host-Version='+ dict_rsi['host_version']])
 
-            RSI_Analyser.append('Uptime=' + dict_rsi['uptime'])
+        RSI_Analyser.append('Uptime=' + dict_rsi['uptime'])
 
         if len(dict_rsi['alarm']) >= 1:
             i = 1
@@ -1085,7 +1085,7 @@ class healthcheck:
         
         log_location = f"""
                 <h3>Case extraced logs location : {case_dir} </h3>
-                <p style="color:Blue;">Extracted logs available for 15 days at this location</p>
+                <p style="color:Blue;">Extracted logs available only for 15 days at this location.</p>
                 <br>
                 """
         html_table = """
@@ -1144,7 +1144,7 @@ class healthcheck:
         version = input_string.rsplit(".", 1)[0] # 20.3X75-D36 #
 
         known_pr = f"""
-                <h3>Known PR in the current code : {version} </h3>
+                <h3>Microsoft known PR in the current code : {version} </h3>
                 """
         with open (case_num,'a') as file: 
             file.write(str(known_pr))
