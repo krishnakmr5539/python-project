@@ -1201,4 +1201,15 @@ else:
 os.chdir(final_location) #final_location = "/volume/CSdata/krikumar/Microsoft-automation/RSI_DIR/"#
 file_list = os.listdir()
 for file in file_list:
-    os.system('mail -a "Content-Type: text/html" -s {} krikumar@juniper.net gponnusamy@juniper.net vvikas@juniper.net  -r krikumar@juniper.net  < {}'.format(file,file))
+    
+    os.system('mail -a "Content-Type: text/html" -s {} krikumar@juniper.net gponnusamy@juniper.net -r krikumar@juniper.net  < {}'.format(file,file))
+    os.system('mail -a "Content-Type: text/html" -s {} support-private@juniper.net  -r krikumar@juniper.net  < {}'.format(file,file))
+    
+
+
+
+# Delete old directories which are not modified in last 15 days #
+
+# find /volume/CSdata/krikumar/Microsoft/ -name 2024* -mtime +15 -exec rm -r {} \; /*** Shell command ***/
+
+os.system('find /volume/CSdata/krikumar/Microsoft/ -name 2024* -mtime +15 -exec rm -r {} \;')
