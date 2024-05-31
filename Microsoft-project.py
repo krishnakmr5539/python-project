@@ -23,13 +23,14 @@ master_dir = "/volume/CSdata/krikumar/Microsoft" # Directory  where cases will b
 #             os.system('rm -rf *')
 #             os.mkdir(dir_path)
 
-# os.system('chmod -R 777 /volume/CSdata/krikumar/Microsoft/*')  
 
 #get case number #
 case_file_loc = "/volume/CSdata/krikumar/Microsoft-automation"
 os.chdir(case_file_loc)            
 
-file_path1 = 'final-case-list.txt'  # microsoft_case.txt has case number reported in last 10 minutes
+# file_path1 = 'final-case-list.txt'  # microsoft_case.txt has case number reported in last 10 minutes
+file_path1 = 'test-final-case-list.txt'
+
 
 # Open the file in read mode
 with open(file_path1, 'r') as file: # Read all lines from the file and store them in a list
@@ -85,10 +86,8 @@ for x in range(len(res)):
                 file_path = f"{case_vol}/{file}"
                 print("Copying file to Csdata: {} ".format(file),"\n")
                 shutil.copy(file_path,case_dir)
-# os.chdir(case_dir) 
-os.system('chmod -R 777 *')
 
-time.sleep(5)
+time.sleep(1)
 
 ### RSI Analyser Script start from here ###
 
@@ -419,10 +418,10 @@ class healthcheck:
 
         
         RSI_Analyser = []
-        RSI_Analyser.append("HEALTH CHECK FROM RSI FILE="+' '+RSI)
+        RSI_Analyser.append("HEALTH CHECK FROM RSI FILE ="+' '+RSI)
         #Add rows
         try:
-            RSI_Analyser.append("Hostname="+ dict_rsi['hostname'])
+            RSI_Analyser.append("Hostname ="+ dict_rsi['hostname'])
 
         except KeyError:
             RSI_Analyser.append("Hostname not found on RSI file="+RSI)
@@ -431,20 +430,20 @@ class healthcheck:
             RSI_Analyser.append("Platform ="+dict_rsi['model'])   
 
         except KeyError:
-            RSI_Analyser.append("Platform Details not found on RSI file :"+RSI)
+            RSI_Analyser.append("Platform Details not found on RSI file : = "+RSI)
 
         try:
             RSI_Analyser.append("Junos_Version =" +dict_rsi['version'])
 
         except KeyError:
-            RSI_Analyser.append("JUNOS Version Details not found on RSI file "+RSI+"\nPlease check if RSI file "+RSI+" contains valid info")
-            RSI_Analyser.append("EXITING THE HEALTHCHECK")
+            RSI_Analyser.append("JUNOS Version Details not found on RSI file = "+RSI+"\nPlease check if RSI file "+RSI+" contains valid info")
+            RSI_Analyser.append("EXITING THE HEALTHCHECK =")
             exit(1)
 
         if dict_rsi.get('host_version') != None:
-            RSI_Analyser.append(['Host-Version='+ dict_rsi['host_version']])
+            RSI_Analyser.append(['Host-Version ='+ dict_rsi['host_version']])
 
-        RSI_Analyser.append('Uptime=' + dict_rsi['uptime'])
+        RSI_Analyser.append('Uptime =' + dict_rsi['uptime'])
 
         if len(dict_rsi['alarm']) >= 1:
             i = 1
@@ -503,7 +502,7 @@ class healthcheck:
         except KeyError:
         #Laundry memory display
             try:
-                RSI_Analyser.append(['Active Memory:='+dict_rsi['laun'][0]])
+                RSI_Analyser.append(['Active Memory: ='+dict_rsi['laun'][0]])
                 RSI_Analyser.append(['InActive Memory='+dict_rsi['laun'][1]])
                 RSI_Analyser.append(['Laundry Memory='+dict_rsi['laun'][2]])
                 RSI_Analyser.append(['Wired Memory='+dict_rsi['laun'][3]])
@@ -511,7 +510,7 @@ class healthcheck:
                 RSI_Analyser.append(['Free Memory='+dict_rsi['laun'][5]])
             
             except KeyError:
-                RSI_Analyser.append("Check Process Memory pattern in the code")
+                RSI_Analyser.append("Check Process Memory pattern in the code =")
             
         #swap mem display
         if dict_rsi.get('swap') != None:
@@ -1052,17 +1051,17 @@ class healthcheck:
             RSI_Analyser.append(['PFE Hardware input drops='+'No PFE Hardware Input Drops'])
         
         if int_conv(dict_rsi['pfe_timeout']) != 0:
-            RSI_Analyser.append(['PFE HW Timeout',dict_rsi['pfe_timeout']])
+            RSI_Analyser.append(['PFE HW Timeout =',dict_rsi['pfe_timeout']])
         if dict_rsi.get('pfe_trun_key') != None:
             if int_conv(dict_rsi['pfe_trun_key']) != 0:
-                RSI_Analyser.append(['PFE HW Truncated key',dict_rsi['pfe_trun_key']])
+                RSI_Analyser.append(['PFE HW Truncated key =',dict_rsi['pfe_trun_key']])
         if int_conv(dict_rsi['pfe_bits_test']) != 0:
-            RSI_Analyser.append(['PFE HW  Bits to test',dict_rsi['pfe_bits_test']])
+            RSI_Analyser.append(['PFE HW  Bits to test =',dict_rsi['pfe_bits_test']])
         if int_conv(dict_rsi['pfe_data_err']) != 0:
-            RSI_Analyser.append(['PFE HW Data error ',dict_rsi['pfe_data_err']])
+            RSI_Analyser.append(['PFE HW Data error =',dict_rsi['pfe_data_err']])
         if dict_rsi.get('pfe_tcp_hdr_len_err') != None:
             if int_conv(dict_rsi['pfe_tcp_hdr_len_err']) != 0:
-                RSI_Analyser.append(['PFE HW TCP header length error',dict_rsi['pfe_tcp_hdr_len_err']])
+                RSI_Analyser.append(['PFE HW TCP header length error =',dict_rsi['pfe_tcp_hdr_len_err']])
                 
         if int_conv(dict_rsi['pfe_stk_undr_flow']) != 0:
             RSI_Analyser.append(['PFE HW Stack underflow='+dict_rsi['pfe_stk_undr_flow']])
@@ -1079,20 +1078,20 @@ class healthcheck:
         if int_conv(dict_rsi['pfe_fab_drop']) != 0:
             RSI_Analyser.append(['PFE HW Fabric drops='+dict_rsi['pfe_fab_drop']])
         
+        os.chdir("/volume/CSdata/krikumar/Microsoft/") #changing directory#
         
-        
-
         os.system('chmod -R 777 {}'.format(case_num)) #set case directory permision to full#
 
         os.chdir(case_rsi_pr_dir) #change the directory to write the RSI analysed output#
         email_header = """
                     <html>
-                    <body>
-                    <p  style="color:Red;" >Attention :This is automated email,if you find any abnormality or any suggestion,kindly email to krikumar@juniper.net,gponnusamy@juniper.net</p>
-                    <br>
-                    <p>Hello Team,</p>
-                    <p>Please find RSI health check and known PR list in the current code.</p>    
-                    <br>
+                        <body>
+                        <p style="color:red;"> Attention:</p> 
+                        <p style="color:blue;">This is automated email,if you find any abnormality or any suggestion,kindly email to krikumar@juniper.net,gponnusamy@juniper.net</p>
+                        <br>
+                        <p>Hello Team,</p>
+                        <p>Please find RSI health check and known PR list in the current code.</p>    
+                        <br>
                     """
         case_dir = "/volume/CSdata/krikumar/Microsoft/" + case_num
         
@@ -1125,9 +1124,8 @@ class healthcheck:
                 line = i[0]
             else:
                 line = i
-            
             try:
-                key, value = line.split("=")
+                key,value = line.split("=")
 
                 table = """<table style="width: 80%">
                                     <colgroup>
@@ -1160,7 +1158,7 @@ class healthcheck:
                                             <td style="color:black;"> {key}</td>
                                             <td style="color:red;">{value} </td>
                                     {table1}
-                            """
+                                    """
                 elif "Core" in key: 
                     if "Present" in value:
                         rsi_html_table = f"""
@@ -1308,6 +1306,13 @@ for file in file_list:
 #find /volume/CSdata/krikumar/Microsoft/ -name 2024* -mtime +15 -exec rm -r {} \; /*** Shell command ***/
 
 time.sleep(1)
+
+
+os.chdir("/homes/krikumar/") #move to home directory to execute below command #
+
+print(os.getcwd())
+
+print("Deleting old inactive directories:\n")
 
 os.system('find /volume/CSdata/krikumar/Microsoft/ -name 2024* -mtime +15 -exec rm -r {} \;')
 
