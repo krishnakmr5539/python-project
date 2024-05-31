@@ -3,8 +3,6 @@ import shutil
 import tarfile
 import time
 import re
-from prettytable import PrettyTable,ALL
-
 
 today_date = time.strftime("%Y-%m%d") #time in 2024-0326 formate
 year = time.strftime("%Y")
@@ -419,8 +417,7 @@ class healthcheck:
 
         dict_rsi['fpc'].sort()
 
-        mytable = PrettyTable(["Component","Value"])
-        mytable.hrules=ALL
+        
         RSI_Analyser = []
         RSI_Analyser.append("HEALTH CHECK FROM RSI FILE="+' '+RSI)
         #Add rows
@@ -453,7 +450,7 @@ class healthcheck:
             i = 1
             for al in dict_rsi['alarm']:
 
-                RSI_Analyser.append("Alarm ="+' '+str(i) + al)
+                RSI_Analyser.append("Alarm " + str(i) + "="+ al)
                 i = i+1
         else:
 
@@ -463,7 +460,7 @@ class healthcheck:
                 i = 1
                 for cor in dict_rsi['core']:
 
-                    RSI_Analyser.append('Core='+''+str(i)+cor)
+                    RSI_Analyser.append('Core ' + str(i) + '='+ cor)
                     i+=1
             else:       
 
@@ -490,14 +487,14 @@ class healthcheck:
         #process memory display
         try:
             if len(dict_rsi['mem']) == 5:
-                RSI_Analyser.append(['Active Memory = '+dict_rsi['mem'][0]])
+                RSI_Analyser.append(['Active Memory: = '+dict_rsi['mem'][0]])
                 RSI_Analyser.append(['InActive Memory = '+dict_rsi['mem'][1]])
                 RSI_Analyser.append(['Wired Memory = '+dict_rsi['mem'][2]])
                 RSI_Analyser.append(['Buffer Memory = '+dict_rsi['mem'][3]])
                 RSI_Analyser.append(['Free Memory = '+dict_rsi['mem'][4]])
 
             else: 
-                RSI_Analyser.append(['Active Memory='+dict_rsi['mem'][0]])
+                RSI_Analyser.append(['Active Memory:='+dict_rsi['mem'][0]])
                 RSI_Analyser.append(['InActive Memory='+dict_rsi['mem'][1]])
                 RSI_Analyser.append(['Wired Memory='+dict_rsi['mem'][2]])
                 RSI_Analyser.append(['Cache Memory='+dict_rsi['mem'][3]])
@@ -506,7 +503,7 @@ class healthcheck:
         except KeyError:
         #Laundry memory display
             try:
-                RSI_Analyser.append(['Active Memory='+dict_rsi['laun'][0]])
+                RSI_Analyser.append(['Active Memory:='+dict_rsi['laun'][0]])
                 RSI_Analyser.append(['InActive Memory='+dict_rsi['laun'][1]])
                 RSI_Analyser.append(['Laundry Memory='+dict_rsi['laun'][2]])
                 RSI_Analyser.append(['Wired Memory='+dict_rsi['laun'][3]])
@@ -1053,21 +1050,37 @@ class healthcheck:
             RSI_Analyser.append(['PFE Hardware input drops='+dict_rsi['pfe_hw_input_drops']])
         else:
             RSI_Analyser.append(['PFE Hardware input drops='+'No PFE Hardware Input Drops'])
-
-        RSI_Analyser.append(['PFE HW Timeout='+dict_rsi['pfe_timeout']])
+        
+        if int_conv(dict_rsi['pfe_timeout']) != 0:
+            RSI_Analyser.append(['PFE HW Timeout',dict_rsi['pfe_timeout']])
         if dict_rsi.get('pfe_trun_key') != None:
-            RSI_Analyser.append(['PFE HW Truncated key='+dict_rsi['pfe_trun_key']])
-        RSI_Analyser.append(['PFE HW  Bits to test='+dict_rsi['pfe_bits_test']])
-        RSI_Analyser.append(['PFE HW Data error ='+dict_rsi['pfe_data_err']])
+            if int_conv(dict_rsi['pfe_trun_key']) != 0:
+                RSI_Analyser.append(['PFE HW Truncated key',dict_rsi['pfe_trun_key']])
+        if int_conv(dict_rsi['pfe_bits_test']) != 0:
+            RSI_Analyser.append(['PFE HW  Bits to test',dict_rsi['pfe_bits_test']])
+        if int_conv(dict_rsi['pfe_data_err']) != 0:
+            RSI_Analyser.append(['PFE HW Data error ',dict_rsi['pfe_data_err']])
         if dict_rsi.get('pfe_tcp_hdr_len_err') != None:
-            RSI_Analyser.append(['PFE HW TCP header length error='+dict_rsi['pfe_tcp_hdr_len_err']])
-        RSI_Analyser.append(['PFE HW Stack underflow='+dict_rsi['pfe_stk_undr_flow']])
-        RSI_Analyser.append(['PFE HW Stack overflow='+dict_rsi['pfe_stk_ovr_flow']])
-        RSI_Analyser.append(['PFE HW Normal discard='+dict_rsi['pfe_nrml_discard']])
-        RSI_Analyser.append(['PFE HW Extended discard='+dict_rsi['pfe_ext_discard']])
-        RSI_Analyser.append(['PFE HW Invalid interface='+dict_rsi['pfe_inv_int']])
-        RSI_Analyser.append(['PFE HW Info cell drops='+dict_rsi['pfe_info_cell_drop']])
-        RSI_Analyser.append(['PFE HW Fabric drops='+dict_rsi['pfe_fab_drop']])
+            if int_conv(dict_rsi['pfe_tcp_hdr_len_err']) != 0:
+                RSI_Analyser.append(['PFE HW TCP header length error',dict_rsi['pfe_tcp_hdr_len_err']])
+                
+        if int_conv(dict_rsi['pfe_stk_undr_flow']) != 0:
+            RSI_Analyser.append(['PFE HW Stack underflow='+dict_rsi['pfe_stk_undr_flow']])
+        if int_conv(dict_rsi['pfe_stk_ovr_flow']) != 0:
+            RSI_Analyser.append(['PFE HW Stack overflow='+dict_rsi['pfe_stk_ovr_flow']])
+        if int_conv(dict_rsi['pfe_nrml_discard']) != 0:
+            RSI_Analyser.append(['PFE HW Normal discard='+dict_rsi['pfe_nrml_discard']])
+        if int_conv(dict_rsi['pfe_ext_discard']) != 0:
+            RSI_Analyser.append(['PFE HW Extended discard='+dict_rsi['pfe_ext_discard']])
+        if int_conv(dict_rsi['pfe_inv_int']) != 0:
+            RSI_Analyser.append(['PFE HW Invalid interface='+dict_rsi['pfe_inv_int']])
+        if int_conv(dict_rsi['pfe_info_cell_drop']) != 0:
+            RSI_Analyser.append(['PFE HW Info cell drops='+dict_rsi['pfe_info_cell_drop']])
+        if int_conv(dict_rsi['pfe_fab_drop']) != 0:
+            RSI_Analyser.append(['PFE HW Fabric drops='+dict_rsi['pfe_fab_drop']])
+        
+        
+        
 
         os.system('chmod -R 777 {}'.format(case_num)) #set case directory permision to full#
 
@@ -1078,7 +1091,7 @@ class healthcheck:
                     <p  style="color:Red;" >Attention :This is automated email,if you find any abnormality or any suggestion,kindly email to krikumar@juniper.net,gponnusamy@juniper.net</p>
                     <br>
                     <p>Hello Team,</p>
-                    <p>Please find RSI health check and know PR list in the current code.</p>    
+                    <p>Please find RSI health check and known PR list in the current code.</p>    
                     <br>
                     """
         case_dir = "/volume/CSdata/krikumar/Microsoft/" + case_num
@@ -1105,7 +1118,8 @@ class healthcheck:
                 file.write(str(log_location))
                 file.write(str(html_table))
                 file.write("\n")
-
+        flag = 0
+        
         for i in RSI_Analyser:
             if isinstance(i, list):  #to check if the output of i is a list or string i.e ['idle: cpu3 = 82.28%'] or Hostname = exr01.ash#
                 line = i[0]
@@ -1114,22 +1128,105 @@ class healthcheck:
             
             try:
                 key, value = line.split("=")
-                rsi_html_table = f"""
-                        <table style="width: 100%">
-                            <colgroup>
-                            <col span="1" style="width: 30%;">
-                            <col span="1" style="width: 50%;">
-                            </colgroup>
 
-                            <!-- Put <thead>, <tbody>, and <tr>'s here! -->
-                            <tbody>
-                                <tr>
-                                    <td> {key}</td>
-                                    <td>{value} </td>
-                                </tr>
+                table = """<table style="width: 80%">
+                                    <colgroup>
+                                    <col span="1" style="width: 30%;">
+                                    <col span="1" style="width: 50%;">
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>"""
+                table1 = """ </tr>
                             </tbody>
-                        </table>
-                """
+                            </table>"""
+                if "RSI" in key:
+                    rsi_html_table = f"""
+                                {table}
+                                        <td style="background-color:MediumSeaGreen;"color:black;> {key}</td>
+                                        <td style="background-color:MediumSeaGreen;"color:black;>{value} </td>
+                                {table1}
+                        """          
+                elif "Alarm" in key: 
+                    if "Present" in value:
+                        rsi_html_table = f"""
+                                {table}
+                                        <td style="color:black;"> {key}</td>
+                                        <td style="color:blue;">{value} </td>
+                                {table1}
+                        """
+                    else:
+                        rsi_html_table = f"""
+                                    {table}
+                                            <td style="color:black;"> {key}</td>
+                                            <td style="color:red;">{value} </td>
+                                    {table1}
+                            """
+                elif "Core" in key: 
+                    if "Present" in value:
+                        rsi_html_table = f"""
+                                    {table}
+                                            <td style="color:black;"> {key}</td>
+                                            <td style="color:green;">{value} </td>
+                                    {table1}
+                            """
+                    else:
+                        rsi_html_table = f"""
+                                    {table}
+                                            <td style="color:black;"> {key}</td>
+                                            <td style="color:red;">{value} </td>
+                                    {table1}
+                            """
+                elif "idle:" in key and flag == 0: 
+                        rsi_html_table = f"""
+                                    {table}
+                                            <td style="background-color:MediumSeaGreen;"color:black;"> {key}</td>
+                                            <td style="background-color:MediumSeaGreen;"color:black;">{value} </td>
+                                    {table1}
+                            """
+                        flag = 1
+                # elif "rpd process" in key:
+                #     if value < 40 :
+                #         rsi_html_table = f"""
+                #                 {table}
+                #                         <td style="background-color:MediumSeaGreen;"color:black;"> {key}</td>
+                #                         <td style="background-color:MediumSeaGreen;"color:black;">{value} </td>
+                #                 {table1}
+                #         """       
+                elif "FPC" in value:
+                    rsi_html_table = f"""
+                                {table}
+                                        <td style="background-color:MediumSeaGreen;"color:black;"> {key}</td>
+                                        <td style="background-color:MediumSeaGreen;"color:black;">{value} </td>
+                                {table1}
+                        """
+                elif "Active Memory:" in key:
+                    rsi_html_table = f"""
+                                {table}
+                                        <td style="background-color:MediumSeaGreen;"color:black;"> {key}</td>
+                                        <td style="background-color:MediumSeaGreen;"color:black;">{value} </td>
+                                {table1}
+                        """
+                elif "RE Type" in key:
+                    rsi_html_table = f"""
+                                {table}
+                                        <td style="background-color:MediumSeaGreen;"color:black;"> {key}</td>
+                                        <td style="background-color:MediumSeaGreen;"color:black;"">{value} </td>
+                                {table1}
+                        """
+                elif "Components" in key:
+                    rsi_html_table = f"""
+                                {table}
+                                        <td style="background-color:MediumSeaGreen;"color:black;"> {key}</td>
+                                        <td style="background-color:MediumSeaGreen;"color:black;">{value} </td>
+                                {table1}
+                        """        
+                else:
+                    rsi_html_table = f"""
+                                {table}
+                                        <td style="color:black;"> {key}</td>
+                                        <td style="color:black;">{value} </td>
+                                {table1}
+                        """
 
                 with open (case_num,'a') as file:
                     file.write(str(rsi_html_table))
@@ -1202,14 +1299,16 @@ os.chdir(final_location) #final_location = "/volume/CSdata/krikumar/Microsoft-au
 file_list = os.listdir()
 for file in file_list:
     
-    os.system('mail -a "Content-Type: text/html" -s {} krikumar@juniper.net gponnusamy@juniper.net -r krikumar@juniper.net  < {}'.format(file,file))
+    os.system('mail -a "Content-Type: text/html" -s {} krikumar@juniper.net gponnusamy@juniper.net -r krikumar@juniper.net  < {}'.format(file + "-RSI-SCANNER",file))
     os.system('mail -a "Content-Type: text/html" -s {} support-private@juniper.net  -r krikumar@juniper.net  < {}'.format(file,file))
-    
-
 
 
 # Delete old directories which are not modified in last 15 days #
 
-# find /volume/CSdata/krikumar/Microsoft/ -name 2024* -mtime +15 -exec rm -r {} \; /*** Shell command ***/
+#find /volume/CSdata/krikumar/Microsoft/ -name 2024* -mtime +15 -exec rm -r {} \; /*** Shell command ***/
+
+time.sleep(1)
 
 os.system('find /volume/CSdata/krikumar/Microsoft/ -name 2024* -mtime +15 -exec rm -r {} \;')
+
+
