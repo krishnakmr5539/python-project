@@ -28,8 +28,8 @@ master_dir = "/volume/CSdata/krikumar/Microsoft" # Directory  where cases will b
 case_file_loc = "/volume/CSdata/krikumar/Microsoft-automation"
 os.chdir(case_file_loc)            
 
-# file_path1 = 'final-case-list.txt'  # microsoft_case.txt has case number reported in last 10 minutes
-file_path1 = 'test-final-case-list.txt'
+file_path1 = 'final-case-list.txt'  # microsoft_case.txt has case number reported in last 10 minutes
+# file_path1 = 'test-final-case-list.txt'
 
 
 # Open the file in read mode
@@ -1051,17 +1051,17 @@ class healthcheck:
             RSI_Analyser.append(['PFE Hardware input drops='+'No PFE Hardware Input Drops'])
         
         if int_conv(dict_rsi['pfe_timeout']) != 0:
-            RSI_Analyser.append(['PFE HW Timeout =',dict_rsi['pfe_timeout']])
+            RSI_Analyser.append(['PFE HW Timeout =' + dict_rsi['pfe_timeout']])
         if dict_rsi.get('pfe_trun_key') != None:
             if int_conv(dict_rsi['pfe_trun_key']) != 0:
-                RSI_Analyser.append(['PFE HW Truncated key =',dict_rsi['pfe_trun_key']])
+                RSI_Analyser.append(['PFE HW Truncated key =' + dict_rsi['pfe_trun_key']])
         if int_conv(dict_rsi['pfe_bits_test']) != 0:
-            RSI_Analyser.append(['PFE HW  Bits to test =',dict_rsi['pfe_bits_test']])
+            RSI_Analyser.append(['PFE HW  Bits to test =' + dict_rsi['pfe_bits_test']])
         if int_conv(dict_rsi['pfe_data_err']) != 0:
-            RSI_Analyser.append(['PFE HW Data error =',dict_rsi['pfe_data_err']])
+            RSI_Analyser.append(['PFE HW Data error =' + dict_rsi['pfe_data_err']])
         if dict_rsi.get('pfe_tcp_hdr_len_err') != None:
             if int_conv(dict_rsi['pfe_tcp_hdr_len_err']) != 0:
-                RSI_Analyser.append(['PFE HW TCP header length error =',dict_rsi['pfe_tcp_hdr_len_err']])
+                RSI_Analyser.append(['PFE HW TCP header length error =' + dict_rsi['pfe_tcp_hdr_len_err']])
                 
         if int_conv(dict_rsi['pfe_stk_undr_flow']) != 0:
             RSI_Analyser.append(['PFE HW Stack underflow='+dict_rsi['pfe_stk_undr_flow']])
@@ -1097,7 +1097,7 @@ class healthcheck:
         
         log_location = f"""
                 <h3>Case extraced logs location : {case_dir} </h3>
-                <p style="color:Blue;">Extracted logs available only for 15 days at this location.</p>
+                <p style="color:Blue;">Inactive case directory will be deleted after 15 days from this location.</p>
                 <br>
                 """
         html_table = """
@@ -1149,7 +1149,7 @@ class healthcheck:
                         rsi_html_table = f"""
                                 {table}
                                         <td style="color:black;"> {key}</td>
-                                        <td style="color:blue;">{value} </td>
+                                        <td style="color:green;">{value} </td>
                                 {table1}
                         """
                     else:
