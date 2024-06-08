@@ -29,7 +29,7 @@ case_file_loc = "/volume/CSdata/krikumar/Microsoft-automation"
 os.chdir(case_file_loc)            
 
 file_path1 = 'final-case-list.txt'  # microsoft_case.txt has case number reported in last 10 minutes
-# file_path1 = 'test-final-case-list.txt'
+#file_path1 = 'test-final-case-list.txt'
 
 
 # Open the file in read mode
@@ -181,7 +181,9 @@ class healthcheck:
                 dict_rsi['host_version'] = host_version[0]
                 #print(dict_rsi['host_version'])
 
-            core = re.findall('.*\.core\.[0-9]*\.[t]*gz.*|.*\.core-tarball\.[0-9]*\.tgz.*|.*crashinfo\.[0-9]*\.tgz|.*\.[0-9]*\.core\.[t]*gz|.*vmcore.*',each)
+            #core = re.findall('.*\.core\.[0-9]*\.[t]*gz.*|.*\.core-tarball\.[0-9]*\.tgz.*|.*crashinfo\.[0-9]*\.tgz|.*\.[0-9]*\.core\.[t]*gz|.*vmcore.*',each)
+            
+            core = re.findall('.*\.core\.[0-9]*\.[t]*gz.*|.*\.core-tarball\.[0-9]*\.tgz.*|.*crashinfo\.[0-9]*\.tgz|.*\.[0-9]*\.core\.[t]*gz|.*vmcore.*|.*NPC[0-9]*\.gz\.core.[0-9]',each)
             if core:
                 dict_rsi['core'].append(core[0])
                 #print(dict_rsi['core'])
@@ -520,7 +522,7 @@ class healthcheck:
                 RSI_Analyser.append(['Swap Free='+dict_rsi['swap'][2]])
                 swap_in_use = re.findall('[0-9]+',dict_rsi['swap'][3])
                 if int(swap_in_use[0]) > 50:
-                    RSI_Analyser.append(['Swap Inuse Percentage='+R+dict_rsi['swap'][3]+N])
+                    RSI_Analyser.append(['Swap Inuse Percentage='+dict_rsi['swap'][3]])
                 else:
                     RSI_Analyser.append(['Swap Inuse Percentage='+dict_rsi['swap'][3]])
             else:
@@ -536,7 +538,7 @@ class healthcheck:
         if len(dict_rsi['re_role']) > 1:
             RSI_Analyser.append(['RE0 role='+dict_rsi['re_role'][0]])
             if int_conv(dict_rsi['re_mem'][0]) > 80:
-                RSI_Analyser.append(['RE0 Memory usage='+R+dict_rsi['re_mem'][0]+N])
+                RSI_Analyser.append(['RE0 Memory usage='+dict_rsi['re_mem'][0]])
             else:
                 RSI_Analyser.append(['RE0 Memory usage='+dict_rsi['re_mem'][0]])
             RSI_Analyser.append(['RE0 Start time='+dict_rsi['re_refpc_starttime'][0]])
@@ -544,7 +546,7 @@ class healthcheck:
             RSI_Analyser.append(['RE0 Last reboot reason='+dict_rsi['re_last_reboot_reason'][0]])
             RSI_Analyser.append(['RE1 role='+dict_rsi['re_role'][1]])
             if int_conv(dict_rsi['re_mem'][1]) > 80:
-                RSI_Analyser.append(['RE1 Memory usage='+R+dict_rsi['re_mem'][1]+N])
+                RSI_Analyser.append(['RE1 Memory usage='+dict_rsi['re_mem'][1]])
             else:
                 RSI_Analyser.append(['RE1 Memory usage='+dict_rsi['re_mem'][1]])
             RSI_Analyser.append(['RE1 Start time='+dict_rsi['re_refpc_starttime'][1]])
@@ -557,132 +559,132 @@ class healthcheck:
                 if int_conv(dict_rsi['re_cpu_user'][0]) > 9 and int_conv(dict_rsi['re_cpu_user'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][0]])
                 elif int_conv(dict_rsi['re_cpu_user'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec User CPU usage='+R+dict_rsi['re_cpu_user'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][0]])
 
                 if int_conv(dict_rsi['re_cpu_user'][1]) > 9 and int_conv(dict_rsi['re_cpu_user'][1]) < 50:
                     RSI_Analyser.append(['Master RE0 1 Min User CPU usage='+dict_rsi['re_cpu_user'][1]])
                 elif int_conv(dict_rsi['re_cpu_user'][1]) > 49:
-                    RSI_Analyser.append(['Master RE0 1 Min User CPU usage='+R+dict_rsi['re_cpu_user'][1]+N])
+                    RSI_Analyser.append(['Master RE0 1 Min User CPU usage='+dict_rsi['re_cpu_user'][1]])
 
                 if int_conv(dict_rsi['re_cpu_user'][2]) > 9 and int_conv(dict_rsi['re_cpu_user'][2]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Min User CPU usage='+dict_rsi['re_cpu_user'][2]])
                 elif int_conv(dict_rsi['re_cpu_user'][2]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Min User CPU usage='+R+dict_rsi['re_cpu_user'][2]+N])
+                    RSI_Analyser.append(['Master RE0 5 Min User CPU usage='+dict_rsi['re_cpu_user'][2]])
 
                 if int_conv(dict_rsi['re_cpu_user'][3]) > 9 and int_conv(dict_rsi['re_cpu_user'][3]) < 50:
                     RSI_Analyser.append(['Master RE0 15 Min User CPU usage='+dict_rsi['re_cpu_user'][3]])
                 elif int_conv(dict_rsi['re_cpu_user'][3]) > 49:
-                    RSI_Analyser.append(['Master RE0 15 Min User CPU usage='+R+dict_rsi['re_cpu_user'][3]+N])
+                    RSI_Analyser.append(['Master RE0 15 Min User CPU usage='+dict_rsi['re_cpu_user'][3]])
 
                 if int_conv(dict_rsi['re_cpu_user'][4]) > 9 and int_conv(dict_rsi['re_cpu_user'][4]) < 50:
                     RSI_Analyser.append(['Backup RE1 15 Min User CPU usage='+dict_rsi['re_cpu_user'][4]])
                 elif int_conv(dict_rsi['re_cpu_user'][4]) > 49:
-                    RSI_Analyser.append(['Backup RE1 15 Min User CPU usage='+R+dict_rsi['re_cpu_user'][4]+N])
+                    RSI_Analyser.append(['Backup RE1 15 Min User CPU usage='+dict_rsi['re_cpu_user'][4]])
 
                 #Background process CPU usage
                 if int_conv(dict_rsi['re_cpu_Background'][0]) > 9 and int_conv(dict_rsi['re_cpu_Background'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec Background CPU usage='+dict_rsi['re_cpu_Background'][0]])
                 elif int_conv(dict_rsi['re_cpu_Background'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec Background CPU usage='+R+dict_rsi['re_cpu_Background'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Background CPU usage='+dict_rsi['re_cpu_Background'][0]])
 
                 if int_conv(dict_rsi['re_cpu_Background'][1]) > 9 and int_conv(dict_rsi['re_cpu_Background'][1]) < 50:
                     RSI_Analyser.append(['Master RE0 1 Min Background CPU usage='+dict_rsi['re_cpu_Background'][1]])
                 elif int_conv(dict_rsi['re_cpu_Background'][1]) > 49:
-                    RSI_Analyser.append(['Master RE0 1 Min Background CPU usage='+R+dict_rsi['re_cpu_Background'][1]+N])
+                    RSI_Analyser.append(['Master RE0 1 Min Background CPU usage='+dict_rsi['re_cpu_Background'][1]])
                 
                 if int_conv(dict_rsi['re_cpu_Background'][2]) > 9 and int_conv(dict_rsi['re_cpu_Background'][2]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Min Background CPU usage='+dict_rsi['re_cpu_Background'][2]])
                 elif int_conv(dict_rsi['re_cpu_Background'][2]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Min Background CPU usage='+R+dict_rsi['re_cpu_Background'][2]+N])
+                    RSI_Analyser.append(['Master RE0 5 Min Background CPU usage='+dict_rsi['re_cpu_Background'][2]])
                 
                 if int_conv(dict_rsi['re_cpu_Background'][3]) > 9 and int_conv(dict_rsi['re_cpu_Background'][3]) < 50:
                     RSI_Analyser.append(['Master RE0 15 Min Background CPU usage='+dict_rsi['re_cpu_Background'][3]])
                 elif int_conv(dict_rsi['re_cpu_Background'][3]) > 49:
-                    RSI_Analyser.append(['Master RE0 15 Min Background CPU usage='+R+dict_rsi['re_cpu_Background'][3]+N])
+                    RSI_Analyser.append(['Master RE0 15 Min Background CPU usage='+dict_rsi['re_cpu_Background'][3]])
 
                 if int_conv(dict_rsi['re_cpu_Background'][4]) > 9 and int_conv(dict_rsi['re_cpu_Background'][4]) < 50:
                     RSI_Analyser.append(['Backup RE1 15 Min Background CPU usage='+dict_rsi['re_cpu_Background'][4]])
                 elif int_conv(dict_rsi['re_cpu_Background'][4]) > 49:
-                    RSI_Analyser.append(['Backup RE1 15 Min Background CPU usage='+R+dict_rsi['re_cpu_Background'][4]+N])
+                    RSI_Analyser.append(['Backup RE1 15 Min Background CPU usage='+dict_rsi['re_cpu_Background'][4]])
                 
 
                 #Kernel process CPU usage
                 if int_conv(dict_rsi['re_cpu_Kernel'][0]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][0]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][0]])
 
                 if int_conv(dict_rsi['re_cpu_Kernel'][1]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][1]) < 50:
                     RSI_Analyser.append(['Master RE0 1 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][1]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][1]) > 49:
-                    RSI_Analyser.append(['Master RE0 1 Min Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][1]+N])
+                    RSI_Analyser.append(['Master RE0 1 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][1]])
 
                 if int_conv(dict_rsi['re_cpu_Kernel'][2]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][2]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][2]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][2]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Min Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][2]+N])
+                    RSI_Analyser.append(['Master RE0 5 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][2]])
 
                 if int_conv(dict_rsi['re_cpu_Kernel'][3]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][3]) < 50:
                     RSI_Analyser.append(['Master RE0 15 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][3]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][3]) > 49:
-                    RSI_Analyser.append(['Master RE0 15 Min Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][3]+N])
+                    RSI_Analyser.append(['Master RE0 15 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][3]])
 
                 if int_conv(dict_rsi['re_cpu_Kernel'][4]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][4]) < 50:
                     RSI_Analyser.append(['Backup RE1 15 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][4]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][4]) > 49:
-                    RSI_Analyser.append(['Backup RE1 15 Min Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][4]+N])
+                    RSI_Analyser.append(['Backup RE1 15 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][4]])
 
 
                 #Interrupt process CPU usage
                 if int_conv(dict_rsi['re_cpu_Interrupt'][0]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][0]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][0]])
 
                 if int_conv(dict_rsi['re_cpu_Interrupt'][1]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][1]) < 50:
                     RSI_Analyser.append(['Master RE0 1 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][1]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][1]) > 49:
-                    RSI_Analyser.append(['Master RE0 1 Min Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][1]+N])
+                    RSI_Analyser.append(['Master RE0 1 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][1]])
 
                 if int_conv(dict_rsi['re_cpu_Interrupt'][2]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][2]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][2]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][2]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Min Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][2]+N])
+                    RSI_Analyser.append(['Master RE0 5 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][2]])
 
                 if int_conv(dict_rsi['re_cpu_Interrupt'][3]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][3]) < 50:
                     RSI_Analyser.append(['Master RE0 15 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][3]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][3]) > 49:
-                    RSI_Analyser.append(['Master RE0 15 Min Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][3]+N])
+                    RSI_Analyser.append(['Master RE0 15 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][3]])
 
                 if int_conv(dict_rsi['re_cpu_Interrupt'][4]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][4]) < 50:
                     RSI_Analyser.append(['Backup RE1 15 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][4]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][4]) > 49:
-                    RSI_Analyser.append(['Backup RE1 15 Min Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][4]+N])
+                    RSI_Analyser.append(['Backup RE1 15 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][4]])
                 
 
                 #IDLE CPU 
                 if int_conv(dict_rsi['re_cpu_Idle'][0]) < 30:
-                    RSI_Analyser.append(['Master RE0 5 Sec Idle CPU='+R+dict_rsi['re_cpu_Idle'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Idle CPU='+dict_rsi['re_cpu_Idle'][0]])
                 else:
                     RSI_Analyser.append(['Master RE0 5 Sec Idle CPU='+dict_rsi['re_cpu_Idle'][0]])
                 
                 if int_conv(dict_rsi['re_cpu_Idle'][1]) < 30:
-                    RSI_Analyser.append(['Master RE0 1 Min Idle CPU='+R+dict_rsi['re_cpu_Idle'][1]+N])
+                    RSI_Analyser.append(['Master RE0 1 Min Idle CPU='+dict_rsi['re_cpu_Idle'][1]])
                 else:
                     RSI_Analyser.append(['Master RE0 1 Min Idle CPU='+dict_rsi['re_cpu_Idle'][1]])
 
                 if int_conv(dict_rsi['re_cpu_Idle'][2]) < 30:
-                    RSI_Analyser.append(['Master RE0 5 Min Idle CPU='+R+dict_rsi['re_cpu_Idle'][2]+N])
+                    RSI_Analyser.append(['Master RE0 5 Min Idle CPU='+dict_rsi['re_cpu_Idle'][2]])
                 else:
                     RSI_Analyser.append(['Master RE0 5 Min Idle CPU='+dict_rsi['re_cpu_Idle'][2]])
 
                 if int_conv(dict_rsi['re_cpu_Idle'][3]) < 30:
-                    RSI_Analyser.append(['Master RE0 15 Min Idle CPU='+R+dict_rsi['re_cpu_Idle'][3]+N])
+                    RSI_Analyser.append(['Master RE0 15 Min Idle CPU='+dict_rsi['re_cpu_Idle'][3]])
                 else:
                     RSI_Analyser.append(['Master RE0 15 Min Idle CPU='+dict_rsi['re_cpu_Idle'][3]])
 
                 if int_conv(dict_rsi['re_cpu_Idle'][4]) < 30:
-                    RSI_Analyser.append(['Backup RE1 15 Min Idle CPU='+R+dict_rsi['re_cpu_Idle'][4]+N])
+                    RSI_Analyser.append(['Backup RE1 15 Min Idle CPU='+dict_rsi['re_cpu_Idle'][4]])
                 else:
                     RSI_Analyser.append(['Backup RE1 15 Min Idle CPU='+dict_rsi['re_cpu_Idle'][4]])
 
@@ -692,149 +694,149 @@ class healthcheck:
                 if int_conv(dict_rsi['re_cpu_user'][1]) > 9 and int_conv(dict_rsi['re_cpu_user'][1]) < 50:
                     RSI_Analyser.append(['Master RE1 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][1]])
                 elif int_conv(dict_rsi['re_cpu_user'][1]) > 49:
-                    RSI_Analyser.append(['Master RE1 5 Sec User CPU usage='+R+dict_rsi['re_cpu_user'][1]+N])
+                    RSI_Analyser.append(['Master RE1 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][1]])
 
                 if int_conv(dict_rsi['re_cpu_user'][2]) > 9 and int_conv(dict_rsi['re_cpu_user'][2]) < 50:
                     RSI_Analyser.append(['Master RE1 1 Min User CPU usage='+dict_rsi['re_cpu_user'][2]])
                 elif int_conv(dict_rsi['re_cpu_user'][2]) > 49:
-                    RSI_Analyser.append(['Master RE1 1 Min User CPU usage='+R+dict_rsi['re_cpu_user'][2]+N])
+                    RSI_Analyser.append(['Master RE1 1 Min User CPU usage='+dict_rsi['re_cpu_user'][2]])
 
                 if int_conv(dict_rsi['re_cpu_user'][3]) > 9 and int_conv(dict_rsi['re_cpu_user'][3]) < 50:
                     RSI_Analyser.append(['Master RE1 5 Min User CPU usage='+dict_rsi['re_cpu_user'][3]])
                 elif int_conv(dict_rsi['re_cpu_user'][3]) > 49:
-                    RSI_Analyser.append(['Master RE1 5 Min User CPU usage='+R+dict_rsi['re_cpu_user'][3]+N])
+                    RSI_Analyser.append(['Master RE1 5 Min User CPU usage='+dict_rsi['re_cpu_user'][3]])
 
                 if int_conv(dict_rsi['re_cpu_user'][4]) > 9 and int_conv(dict_rsi['re_cpu_user'][4]) < 50:
                     RSI_Analyser.append(['Master RE1 15 Min User CPU usage='+dict_rsi['re_cpu_user'][4]])
                 elif int_conv(dict_rsi['re_cpu_user'][4]) > 49:
-                    RSI_Analyser.append(['Master RE1 15 Min User CPU usage='+R+dict_rsi['re_cpu_user'][4]+N])
+                    RSI_Analyser.append(['Master RE1 15 Min User CPU usage='+dict_rsi['re_cpu_user'][4]])
 
                 if int_conv(dict_rsi['re_cpu_user'][0]) > 9 and int_conv(dict_rsi['re_cpu_user'][0]) < 50:
                     RSI_Analyser.append(['Backup RE0 15 Min User CPU usage='+dict_rsi['re_cpu_user'][0]])
                 elif int_conv(dict_rsi['re_cpu_user'][0]) > 49:
-                    RSI_Analyser.append(['Backup RE0 15 Min User CPU usage='+R+dict_rsi['re_cpu_user'][0]+N])
+                    RSI_Analyser.append(['Backup RE0 15 Min User CPU usage='+dict_rsi['re_cpu_user'][0]])
 
                 #Background process CPU usage
                 if int_conv(dict_rsi['re_cpu_Background'][1]) > 9 and int_conv(dict_rsi['re_cpu_Background'][1]) < 50:
                     RSI_Analyser.append(['Master RE1 5 Sec Background CPU usage='+dict_rsi['re_cpu_Background'][1]])
                 elif int_conv(dict_rsi['re_cpu_Background'][1]) > 49:
-                    RSI_Analyser.append(['Master RE1 5 Sec Background CPU usage='+R+dict_rsi['re_cpu_Background'][1]+N])
+                    RSI_Analyser.append(['Master RE1 5 Sec Background CPU usage='+dict_rsi['re_cpu_Background'][1]])
 
                 if int_conv(dict_rsi['re_cpu_Background'][2]) > 9 and int_conv(dict_rsi['re_cpu_Background'][2]) < 50:
                     RSI_Analyser.append(['Master RE1 1 Min Background CPU usage='+dict_rsi['re_cpu_Background'][2]])
                 elif int_conv(dict_rsi['re_cpu_Background'][2]) > 49:
-                    RSI_Analyser.append(['Master RE1 1 Min Background CPU usage='+R+dict_rsi['re_cpu_Background'][2]+N])
+                    RSI_Analyser.append(['Master RE1 1 Min Background CPU usage='+dict_rsi['re_cpu_Background'][2]])
                 
                 if int_conv(dict_rsi['re_cpu_Background'][3]) > 9 and int_conv(dict_rsi['re_cpu_Background'][3]) < 50:
                     RSI_Analyser.append(['Master RE1 5 Min Background CPU usage='+dict_rsi['re_cpu_Background'][3]])
                 elif int_conv(dict_rsi['re_cpu_Background'][3]) > 49:
-                    RSI_Analyser.append(['Master RE1 5 Min Background CPU usage='+R+dict_rsi['re_cpu_Background'][3]+N])
+                    RSI_Analyser.append(['Master RE1 5 Min Background CPU usage='+dict_rsi['re_cpu_Background'][3]])
 
                 if int_conv(dict_rsi['re_cpu_Background'][4]) > 9 and int_conv(dict_rsi['re_cpu_Background'][4]) < 50:
                     RSI_Analyser.append(['Master RE1 15 Min Background CPU usage='+dict_rsi['re_cpu_Background'][4]])
                 elif int_conv(dict_rsi['re_cpu_Background'][4]) > 49:
-                    RSI_Analyser.append(['Master RE1 15 Min Background CPU usage='+R+dict_rsi['re_cpu_Background'][4]+N])
+                    RSI_Analyser.append(['Master RE1 15 Min Background CPU usage='+dict_rsi['re_cpu_Background'][4]])
 
                 if int_conv(dict_rsi['re_cpu_Background'][0]) > 9 and int_conv(dict_rsi['re_cpu_Background'][0]) < 50:
                     RSI_Analyser.append(['Backup RE0 15 Min Background CPU usage='+dict_rsi['re_cpu_Background'][0]])
                 elif int_conv(dict_rsi['re_cpu_Background'][0]) > 49:
-                    RSI_Analyser.append(['Backup RE0 15 Min Background CPU usage='+R+dict_rsi['re_cpu_Background'][0]+N])
+                    RSI_Analyser.append(['Backup RE0 15 Min Background CPU usage='+dict_rsi['re_cpu_Background'][0]])
                 
 
                 #Kernel process CPU usage
                 if int_conv(dict_rsi['re_cpu_Kernel'][1]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][1]) < 50:
                     RSI_Analyser.append(['Master RE1 5 Sec Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][1]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][1]) > 49:
-                    RSI_Analyser.append(['Master RE1 5 Sec Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][1]+N])
+                    RSI_Analyser.append(['Master RE1 5 Sec Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][1]])
                 
                 if int_conv(dict_rsi['re_cpu_Kernel'][2]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][2]) < 50:
                     RSI_Analyser.append(['Master RE1 1 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][2]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][2]) > 49:
-                    RSI_Analyser.append(['Master RE1 1 Min Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][2]+N])
+                    RSI_Analyser.append(['Master RE1 1 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][2]])
 
                 if int_conv(dict_rsi['re_cpu_Kernel'][3]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][3]) < 50:
                     RSI_Analyser.append(['Master RE1 5 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][3]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][3]) > 49:
-                    RSI_Analyser.append(['Master RE1 5 Min Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][3]+N])
+                    RSI_Analyser.append(['Master RE1 5 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][3]])
                 
                 if int_conv(dict_rsi['re_cpu_Kernel'][4]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][4]) < 50:
                     RSI_Analyser.append(['Master RE1 15 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][4]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][4]) > 49:
-                    RSI_Analyser.append(['Master RE1 15 Min Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][4]+N])
+                    RSI_Analyser.append(['Master RE1 15 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][4]])
                 
                 if int_conv(dict_rsi['re_cpu_Kernel'][0]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][0]) < 50:
                     RSI_Analyser.append(['Backup RE0 15 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][0]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][0]) > 49:
-                    RSI_Analyser.append(['Backup RE0 15 Min Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][0]+N])
+                    RSI_Analyser.append(['Backup RE0 15 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][0]])
                 
 
                 #Interrupt process CPU usage
                 if int_conv(dict_rsi['re_cpu_Interrupt'][1]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][1]) < 50:
                     RSI_Analyser.append(['Master RE1 5 Sec Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][1]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][1]) > 49:
-                    RSI_Analyser.append(['Master RE1 5 Sec Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][1]+N])
+                    RSI_Analyser.append(['Master RE1 5 Sec Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][1]])
                 
                 if int_conv(dict_rsi['re_cpu_Interrupt'][2]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][2]) < 50:
                     RSI_Analyser.append(['Master RE1 1 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][2]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][2]) > 49:
-                    RSI_Analyser.append(['Master RE1 1 Min Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][2]+N])
+                    RSI_Analyser.append(['Master RE1 1 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][2]])
                 
                 if int_conv(dict_rsi['re_cpu_Interrupt'][3]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][3]) < 50:
                     RSI_Analyser.append(['Master RE1 5 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][3]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][3]) > 49:
-                    RSI_Analyser.append(['Master RE1 5 Min Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][3]+N])
+                    RSI_Analyser.append(['Master RE1 5 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][3]])
                 
                 if int_conv(dict_rsi['re_cpu_Interrupt'][4]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][4]) < 50:
                     RSI_Analyser.append(['Master RE1 15 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][4]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][4]) > 49:
-                    RSI_Analyser.append(['Master RE1 15 Min Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][4]+N])
+                    RSI_Analyser.append(['Master RE1 15 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][4]])
                 
                 if int_conv(dict_rsi['re_cpu_Interrupt'][0]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][0]) < 50:
                     RSI_Analyser.append(['Backup RE0 15 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][0]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][0]) > 49:
-                    RSI_Analyser.append(['Backup RE0 15 Min Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][0]+N])
+                    RSI_Analyser.append(['Backup RE0 15 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][0]])
                 
 
                 #IDLE CPU 
                 if int_conv(dict_rsi['re_cpu_Idle'][1]) < 30:
-                    RSI_Analyser.append(['Master RE1 5 Sec Idle CPU='+R+dict_rsi['re_cpu_Idle'][1]+N])
+                    RSI_Analyser.append(['Master RE1 5 Sec Idle CPU='+dict_rsi['re_cpu_Idle'][1]])
                 else:
                     RSI_Analyser.append(['Master RE1 5 Sec Idle CPU='+dict_rsi['re_cpu_Idle'][1]])
                 
                 if int_conv(dict_rsi['re_cpu_Idle'][2]) < 30:
-                    RSI_Analyser.append(['Master RE1 1 Min Idle CPU='+R+dict_rsi['re_cpu_Idle'][2]+N])
+                    RSI_Analyser.append(['Master RE1 1 Min Idle CPU='+dict_rsi['re_cpu_Idle'][2]])
                 else:
                     RSI_Analyser.append(['Master RE1 1 Min Idle CPU='+dict_rsi['re_cpu_Idle'][2]])
 
                 if int_conv(dict_rsi['re_cpu_Idle'][3]) < 30:
-                    RSI_Analyser.append(['Master RE1 5 Min Idle CPU='+R+dict_rsi['re_cpu_Idle'][3]+N])
+                    RSI_Analyser.append(['Master RE1 5 Min Idle CPU='+dict_rsi['re_cpu_Idle'][3]])
                 else:
                     RSI_Analyser.append(['Master RE1 5 Min Idle CPU='+dict_rsi['re_cpu_Idle'][3]])
 
                 if int_conv(dict_rsi['re_cpu_Idle'][4]) < 30:
-                    RSI_Analyser.append(['Master RE1 15 Min Idle CPU='+R+dict_rsi['re_cpu_Idle'][4]+N])
+                    RSI_Analyser.append(['Master RE1 15 Min Idle CPU='+dict_rsi['re_cpu_Idle'][4]])
                 else:
                     RSI_Analyser.append(['Master RE1 15 Min Idle CPU='+dict_rsi['re_cpu_Idle'][4]])
                 
                 if int_conv(dict_rsi['re_cpu_Idle'][0]) < 30:
-                    RSI_Analyser.append(['Backup RE0 15 Min Idle CPU='+R+dict_rsi['re_cpu_Idle'][0]+N])
+                    RSI_Analyser.append(['Backup RE0 15 Min Idle CPU='+dict_rsi['re_cpu_Idle'][0]])
                 else:
                     RSI_Analyser.append(['Backup RE0 15 Min Idle CPU='+dict_rsi['re_cpu_Idle'][0]])
             else:
                 if int_conv(dict_rsi['re_cpu_user'][0]) > 9 and int_conv(dict_rsi['re_cpu_user'][0]) < 50:
                     RSI_Analyser.append(['RE0 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][0]])
                 elif int_conv(dict_rsi['re_cpu_user'][0]) > 49:
-                    RSI_Analyser.append(['RE0 5 Sec User CPU usage='+R+dict_rsi['re_cpu_user'][0]+N])
+                    RSI_Analyser.append(['RE0 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][0]])
                 if int_conv(dict_rsi['re_cpu_user'][1]) > 9 and int_conv(dict_rsi['re_cpu_user'][1]) < 50:
                     RSI_Analyser.append(['RE1 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][1]])
                 elif int_conv(dict_rsi['re_cpu_user'][1]) > 49:
-                    RSI_Analyser.append(['RE1 5 Sec User CPU usage='+R+dict_rsi['re_cpu_user'][1]+N])
+                    RSI_Analyser.append(['RE1 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][1]])
 
 
         else:
             RSI_Analyser.append(['RE Role='+dict_rsi['re_role'][0]])
             if int_conv(dict_rsi['re_mem'][0]) > 80:
-                RSI_Analyser.append(['RE0 Memory usage='+R+dict_rsi['re_mem'][0]+N])
+                RSI_Analyser.append(['RE0 Memory usage='+dict_rsi['re_mem'][0]])
             else:
                 RSI_Analyser.append(['RE0 Memory usage='+dict_rsi['re_mem'][0]])
             RSI_Analyser.append(['RE0 Start time='+dict_rsi['re_refpc_starttime'][0]])
@@ -848,35 +850,35 @@ class healthcheck:
                 if int_conv(dict_rsi['re_cpu_user'][0]) > 9 and int_conv(dict_rsi['re_cpu_user'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][0]])
                 elif int_conv(dict_rsi['re_cpu_user'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec User CPU usage='+R+dict_rsi['re_cpu_user'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][0]])
 
             #Background process CPU
                 if int_conv(dict_rsi['re_cpu_Background'][0]) > 9 and int_conv(dict_rsi['re_cpu_Background'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec Background CPU usage='+dict_rsi['re_cpu_Background'][0]])
                 elif int_conv(dict_rsi['re_cpu_Background'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec Background CPU usage='+R+dict_rsi['re_cpu_Background'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Background CPU usage='+dict_rsi['re_cpu_Background'][0]])
 
             #Kernel process CPU
                 if int_conv(dict_rsi['re_cpu_Kernel'][0]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][0]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][0]])
 
             #Kernel process CPU
                 if int_conv(dict_rsi['re_cpu_Kernel'][0]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][0]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][0]])
 
             #Interrupt process CPU   
                 if int_conv(dict_rsi['re_cpu_Interrupt'][0]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][0]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][0]])
 
             #IDLE CPU    
                 if int_conv(dict_rsi['re_cpu_Idle'][0]) < 30:
-                    RSI_Analyser.append(['Master RE0 5 Sec Idle CPU='+R+dict_rsi['re_cpu_Idle'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Idle CPU='+dict_rsi['re_cpu_Idle'][0]])
                 else:
                     RSI_Analyser.append(['Master RE0 5 Sec Idle CPU='+dict_rsi['re_cpu_Idle'][0]])
             
@@ -887,112 +889,111 @@ class healthcheck:
                 if int_conv(dict_rsi['re_cpu_user'][0]) > 9 and int_conv(dict_rsi['re_cpu_user'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][0]])
                 elif int_conv(dict_rsi['re_cpu_user'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec User CPU usage='+R+dict_rsi['re_cpu_user'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec User CPU usage='+dict_rsi['re_cpu_user'][0]])
 
                 if int_conv(dict_rsi['re_cpu_user'][1]) > 9 and int_conv(dict_rsi['re_cpu_user'][1]) < 50:
                     RSI_Analyser.append(['Master RE0 1 Min User CPU usage='+dict_rsi['re_cpu_user'][1]])
                 elif int_conv(dict_rsi['re_cpu_user'][1]) > 49:
-                    RSI_Analyser.append(['Master RE0 1 Min User CPU usage='+R+dict_rsi['re_cpu_user'][1]+N])
+                    RSI_Analyser.append(['Master RE0 1 Min User CPU usage='+dict_rsi['re_cpu_user'][1]])
             
                 if int_conv(dict_rsi['re_cpu_user'][2]) > 9 and int_conv(dict_rsi['re_cpu_user'][2]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Min User CPU usage='+dict_rsi['re_cpu_user'][2]])
                 elif int_conv(dict_rsi['re_cpu_user'][2]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Min User CPU usage='+R+dict_rsi['re_cpu_user'][2]+N])
+                    RSI_Analyser.append(['Master RE0 5 Min User CPU usage='+dict_rsi['re_cpu_user'][2]])
             
                 if int_conv(dict_rsi['re_cpu_user'][3]) > 9 and int_conv(dict_rsi['re_cpu_user'][3]) < 50:
                     RSI_Analyser.append(['Master RE0 15 Min User CPU usage='+dict_rsi['re_cpu_user'][3]])
                 elif int_conv(dict_rsi['re_cpu_user'][3]) > 49:
-                    RSI_Analyser.append(['Master RE0 15 Min User CPU usage='+R+dict_rsi['re_cpu_user'][3]+N])
+                    RSI_Analyser.append(['Master RE0 15 Min User CPU usage='+dict_rsi['re_cpu_user'][3]])
             
 
             #Background process CPU
                 if int_conv(dict_rsi['re_cpu_Background'][0]) > 9 and int_conv(dict_rsi['re_cpu_Background'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec Background CPU usage='+dict_rsi['re_cpu_Background'][0]])
                 elif int_conv(dict_rsi['re_cpu_Background'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec Background CPU usage='+R+dict_rsi['re_cpu_Background'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Background CPU usage='+dict_rsi['re_cpu_Background'][0]])
 
                 if int_conv(dict_rsi['re_cpu_Background'][1]) > 9 and int_conv(dict_rsi['re_cpu_Background'][1]) < 50:
                     RSI_Analyser.append(['Master RE0 1 Min Background CPU usage='+dict_rsi['re_cpu_Background'][1]])
                 elif int_conv(dict_rsi['re_cpu_Background'][1]) > 49:
-                    RSI_Analyser.append(['Master RE0 1 Min Background CPU usage='+R+dict_rsi['re_cpu_Background'][1]+N])
+                    RSI_Analyser.append(['Master RE0 1 Min Background CPU usage='+dict_rsi['re_cpu_Background'][1]])
             
                 if int_conv(dict_rsi['re_cpu_Background'][2]) > 9 and int_conv(dict_rsi['re_cpu_Background'][2]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Min Background CPU usage='+dict_rsi['re_cpu_Background'][2]])
                 elif int_conv(dict_rsi['re_cpu_Background'][2]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Min Background CPU usage='+R+dict_rsi['re_cpu_Background'][2]+N])
+                    RSI_Analyser.append(['Master RE0 5 Min Background CPU usage='+dict_rsi['re_cpu_Background'][2]])
             
                 if int_conv(dict_rsi['re_cpu_Background'][3]) > 9 and int_conv(dict_rsi['re_cpu_Background'][3]) < 50:
                     RSI_Analyser.append(['Master RE0 15 Min Background CPU usage='+dict_rsi['re_cpu_Background'][3]])
                 elif int_conv(dict_rsi['re_cpu_Background'][3]) > 49:
-                    RSI_Analyser.append(['Master RE0 15 Min Background CPU usage='+R+dict_rsi['re_cpu_Background'][3]+N])
+                    RSI_Analyser.append(['Master RE0 15 Min Background CPU usage='+dict_rsi['re_cpu_Background'][3]])
 
             #Kernel process CPU
                 if int_conv(dict_rsi['re_cpu_Kernel'][0]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][0]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][0]])
 
                 if int_conv(dict_rsi['re_cpu_Kernel'][1]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][1]) < 50:
                     RSI_Analyser.append(['Master RE0 1 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][1]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][1]) > 49:
-                    RSI_Analyser.append(['Master RE0 1 Min Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][1]+N])
+                    RSI_Analyser.append(['Master RE0 1 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][1]])
 
                 if int_conv(dict_rsi['re_cpu_Kernel'][2]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][2]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][2]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][2]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Min Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][2]+N])
+                    RSI_Analyser.append(['Master RE0 5 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][2]])
             
                 if int_conv(dict_rsi['re_cpu_Kernel'][3]) > 9 and int_conv(dict_rsi['re_cpu_Kernel'][3]) < 50:
                     RSI_Analyser.append(['Master RE0 15 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][3]])
                 elif int_conv(dict_rsi['re_cpu_Kernel'][3]) > 49:
-                    RSI_Analyser.append(['Master RE0 15 Min Kernel CPU usage='+R+dict_rsi['re_cpu_Kernel'][3]+N])
+                    RSI_Analyser.append(['Master RE0 15 Min Kernel CPU usage='+dict_rsi['re_cpu_Kernel'][3]])
 
 
             #Interrupt process CPU   
                 if int_conv(dict_rsi['re_cpu_Interrupt'][0]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][0]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Sec Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][0]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][0]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Sec Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][0]])
 
                 if int_conv(dict_rsi['re_cpu_Interrupt'][1]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][1]) < 50:
                     RSI_Analyser.append(['Master RE0 1 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][1]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][1]) > 49:
-                    RSI_Analyser.append(['Master RE0 1 Min Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][1]+N])
+                    RSI_Analyser.append(['Master RE0 1 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][1]])
             
                 if int_conv(dict_rsi['re_cpu_Interrupt'][2]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][2]) < 50:
                     RSI_Analyser.append(['Master RE0 5 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][2]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][2]) > 49:
-                    RSI_Analyser.append(['Master RE0 5 Min Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][2]+N])
+                    RSI_Analyser.append(['Master RE0 5 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][2]])
             
                 if int_conv(dict_rsi['re_cpu_Interrupt'][3]) > 9 and int_conv(dict_rsi['re_cpu_Interrupt'][3]) < 50:
                     RSI_Analyser.append(['Master RE0 15 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][3]])
                 elif int_conv(dict_rsi['re_cpu_Interrupt'][3]) > 49:
-                    RSI_Analyser.append(['Master RE0 15 Min Interrupt CPU usage='+R+dict_rsi['re_cpu_Interrupt'][3]+N])
+                    RSI_Analyser.append(['Master RE0 15 Min Interrupt CPU usage='+dict_rsi['re_cpu_Interrupt'][3]])
                 
 
 
             #IDLE CPU    
                 if int_conv(dict_rsi['re_cpu_Idle'][0]) < 30:
-                    RSI_Analyser.append(['Master RE0 5 Sec Idle CPU='+R+dict_rsi['re_cpu_Idle'][0]+N])
+                    RSI_Analyser.append(['Master RE0 5 Sec Idle CPU='+dict_rsi['re_cpu_Idle'][0]])
                 else:
                     RSI_Analyser.append(['Master RE0 5 Sec Idle CPU='+dict_rsi['re_cpu_Idle'][0]])
             
                 if int_conv(dict_rsi['re_cpu_Idle'][1]) < 30:
-                    RSI_Analyser.append(['Master RE0 1 Min Idle CPU='+R+dict_rsi['re_cpu_Idle'][1]+N])
+                    RSI_Analyser.append(['Master RE0 1 Min Idle CPU='+dict_rsi['re_cpu_Idle'][1]])
                 else:
                     RSI_Analyser.append(['Master RE0 1 Min Idle CPU='+dict_rsi['re_cpu_Idle'][1]])
             
                 if int_conv(dict_rsi['re_cpu_Idle'][2]) < 30:
-                    RSI_Analyser.append(['Master RE0 5 Min Idle CPU='+R+dict_rsi['re_cpu_Idle'][2]+N])
+                    RSI_Analyser.append(['Master RE0 5 Min Idle CPU='+dict_rsi['re_cpu_Idle'][2]])
                 else:
                     RSI_Analyser.append(['Master RE0 5 Min Idle CPU='+dict_rsi['re_cpu_Idle'][2]])
             
                 if int_conv(dict_rsi['re_cpu_Idle'][3]) < 30:
-                    RSI_Analyser.append(['Master RE0 15 Min Idle CPU='+R+dict_rsi['re_cpu_Idle'][3]+N])
+                    RSI_Analyser.append(['Master RE0 15 Min Idle CPU='+dict_rsi['re_cpu_Idle'][3]])
                 else:
                     RSI_Analyser.append(['Master RE0 15 Min Idle CPU='+dict_rsi['re_cpu_Idle'][3]])
             
-        
         #Display FPC 
         if len(dict_rsi['fpc']) > 1 and FPC_info_temp != []:
             if len(FPC_info_temp) == 10:
@@ -1083,6 +1084,37 @@ class healthcheck:
         os.system('chmod -R 777 {}'.format(case_num)) #set case directory permision to full#
 
         os.chdir(case_rsi_pr_dir) #change the directory to write the RSI analysed output#
+        
+        ### code for the feedback ###
+        button_para= """{background-color: #0056b3;
+                            border: none;
+                            color: white;
+                            padding: 15px 32px;
+                            text-align: center;
+                            text-decoration: none;
+                            display: inline-block;
+                            font-size: 16px;
+                            margin: 4px 2px;
+                            cursor: pointer;
+                            border-radius: 12px;}
+                    """
+        like = f"""
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Like Button</title>
+                    <style>
+                        .like-button {button_para}
+                    </style>
+                </head>
+                <body>
+                 <br>
+                    <p style="color:blue;">If you find the above information useful, kindly share feedback by  clicking on the like button:</p>
+                    <a href="mailto:krikumar@juniper.net,gponnusamy@juniper.net?subject= {case_num}-Feedback&body=The details shared in the case were useful." id="send-email-link" <button class="like-button" >&#128077; <span class="like-icon"></span> Like</button> </a>
+                </body>
+                </html>
+                    """
         email_header = """
                     <html>
                         <body>
@@ -1256,8 +1288,10 @@ class healthcheck:
         # Example usage:
         file_path = '/volume/CSdata/krikumar/Microsoft-automation/Final-PR-Report-html-tag-x.html'
         search_string = version
-        find_string_in_file(file_path, search_string)    #calling above function to search version and write the PR #             
-                
+        find_string_in_file(file_path, search_string)    #calling above function to search version and write the PR #      
+        with open (case_num,'a') as file: 
+            file.write("\n")
+            file.write(str(like))       
 RSI = list()
 
 for case in case_list:
